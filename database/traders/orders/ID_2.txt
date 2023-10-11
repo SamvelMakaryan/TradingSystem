@@ -1,0 +1,5 @@
+market sell 15 Nvidia
+limit sell 20 BMW 70
+limit buy 4 Apple
+market buy 10 Ibm
+limit sell 12 BMW

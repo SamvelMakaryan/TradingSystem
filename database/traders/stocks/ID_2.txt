@@ -1,0 +1,3 @@
+Amazon 30
+Tesla 70
+BMW 93

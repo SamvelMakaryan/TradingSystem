@@ -1,0 +1,3 @@
+Nvidia 24
+Sinopsys 17
+Google 4

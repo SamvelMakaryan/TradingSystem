@@ -1,0 +1,5 @@
+market buy 5 Google
+market buy 4 Apple
+limit sell 4 Apple 45
+market buy 10 IBM
+limit sell 12 BMW

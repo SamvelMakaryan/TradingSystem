@@ -1,0 +1,24 @@
+Stock Market opened : Wed Oct 11 16:31:53 2023
+
+[limit] Samvel Makaryan '1' selling BMW '11' confirmed
+
+[limit] Sergey Karapetyan '2' selling BMW '11' confirmed
+
+[market] Samvel Makaryan '1' buying IBM '11' rejected (low balance)
+
+[market] Sergey Karapetyan '2' buying Ibm '11' rejected (no available stocks)
+
+[limit] Samvel Makaryan '1' selling Apple '11' confirmed
+
+[limit] Sergey Karapetyan '2' buying Apple '11' waiting
+
+[market] Samvel Makaryan '1' buying Apple '11' confirmed
+
+[limit] Sergey Karapetyan '2' selling BMW '11' confirmed
+
+[market] Samvel Makaryan '1' buying Google '11' rejected (low balance)
+
+[market] Sergey Karapetyan '2' selling Nvidia '11' rejected (unavalible recource)
+
+Stock Market closed : Wed Oct 11 16:32:03 2023
+
