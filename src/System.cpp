@@ -49,7 +49,7 @@ namespace TS {
         std::fstream input("../database/traders/info.txt", std::ios::in);
         if (!input.is_open()) {
             std::cerr << "Unable to get traders list." << std::endl;
-            std::exit(-1);
+            std::exit(EXIT_FAILURE);
         }
         std::string trader;
         std::string name;
@@ -69,7 +69,7 @@ namespace TS {
         std::fstream input("../database/stocks.txt", std::ios::in);
         if (!input.is_open()) {
             std::cerr << "Unable to get traders list." << std::endl;
-            std::exit(-1);
+            std::exit(EXIT_FAILURE);
         }
         std::string name;
         double price;
@@ -93,27 +93,32 @@ namespace TS {
         loadTraders();
         start();
         std::chrono::seconds duration(seconds);
-        auto start = std::chrono::high_resolution_clock::now();
-        while (std::chrono::high_resolution_clock::now() - start < duration) {
-           std::this_thread::sleep_for(1s);
-           execute();
-        }
-        finish();
-    }
-    
-    void System::execute() {
+        std::vector<std::thread> traderThreads;
         for (auto& trader : m_traders) {
-            Order* order = trader.trade(*this);
-            if (order) {
-                processOrder(trader, *order);
+            traderThreads.emplace_back([this, &trader, &duration]() {
+                std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+                while (std::chrono::high_resolution_clock::now() - start < duration) {
+                    std::this_thread::sleep_for(2s);
+                    execute(trader);
+                    this->m_orders.findMatch(this->m_traders, this->m_stocks);
+                }
+            });
+        }
+        for (auto& thread : traderThreads) {
+            if (thread.joinable()) {
+                thread.join();
             }
         }
-    }
+        finish();
+    }    
 
-    void System::processOrder(Trader& trader, Order& order) {
-        order.execute(trader, *(std::find_if(m_stocks.begin(), m_stocks.end(), 
-            [name = order.getStockName()](const auto& stock)
-            {return name == stock.getName();})), m_orders);
+    void System::execute(Trader& trader) {
+        Order* order = trader.trade();
+        if (order) {
+            order->execute(trader, *(std::find_if(m_stocks.begin(), m_stocks.end(),
+                [name = order->getStockName()](const auto& stock)
+                { return name == stock.getName(); })), m_orders);
+        }
     }
 
     void System::finish() const {
@@ -121,7 +126,7 @@ namespace TS {
         if(!output.is_open()) {
             std::cerr << "Failed to store transactions history" << std::endl;
             output.close();
-            std::exit(-1);
+            std::exit(EXIT_FAILURE);
         }
         auto now = std::chrono::system_clock::now();
         std::time_t current_time = std::chrono::system_clock::to_time_t(now);
@@ -135,16 +140,60 @@ namespace TS {
             if (trader.getStocksCount() != 0) {
                 trader.printStocks();
             } else {
-                std::cout << "no stocks" << std::endl;
+                std::cout << "\tno stocks" << std::endl;
             }
         }
     }
 
     void System::printTradersInfo() const {
-        std::cout << "name\tsurname\tID\tbalance" << std::endl;
+        std::cout << std::left << std::setw(15) << "Name"
+                               << std::setw(15) << "Surname"
+                               << std::setw(10) << "ID"
+                               << std::setw(15) << "Balance" << std::endl;
+        std::cout << std::endl;
         for (const auto& trader : m_traders) {
-            std::cout << trader.getName() << " " << trader.getSurname() << " " << trader.getId() << " " << trader.getBalance() << std::endl;   
+            std::cout << std::left << std::setw(15) << trader.getName() 
+                      << std::setw(15) << trader.getSurname() 
+                      << std::setw(10) << trader.getId() 
+                      << std::setw(0) << trader.getBalance()
+                      << '$' << std::endl;   
         }
+    }
+
+    void System::printStocks() const {
+        std::cout << std::left << std::setw(15) << "Name"
+                               << std::setw(15) << "Count"
+                               << std::setw(15) << "Price" << std::endl;
+        std::cout << std::endl;
+        for (const auto& stock : m_stocks) {
+            std::cout << std::left << std::setw(15) << stock.getName() 
+                                   << std::setw(15) << stock.getCount() 
+                                   << std::setw(0) << stock.getPrice() 
+                                   << '$' << std::endl;
+        }
+    }
+
+    void System::printTransactions() const {
+        std::fstream tr("../history/transactions.txt", std::ios::in);
+        if (!tr.is_open()) {
+            std::cerr << "Can't open transactions history" << std::endl;
+        }
+        std::string line;
+        std::string red = "\033[1;31m";
+        std::string green = "\033[1;32m";
+        std::string gray = "\033[1;90m";
+        while (std::getline(tr, line)) {
+            line += "\033[0m";
+            if (line.rfind("confirmed") != std::string::npos) {
+                line = green + line;
+            } else if (line.rfind("rejected") != std::string::npos) {
+                line = red + line;
+            } else {
+                line = gray + line;
+            }
+            std::cout << line << std::endl;
+        }
+        tr.close();
     }
 
 } // namespace TS

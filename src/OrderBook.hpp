@@ -15,10 +15,6 @@
 
 namespace TS {
 
-    // class Order;
-    // class Trader;
-    // class Stock;
-
     class OrderBook {
     public:
         OrderBook() = default;
@@ -31,7 +27,6 @@ namespace TS {
         int getBuyOrdersCount() const;
         std::vector<Order*>& getBuyOrders();
         std::vector<Order*>& getSellOrders();
-        // Order* getOrderById(std::size_t) const;
         void addBuyOrder(Order&);
         void addSellOrder(Order&);
         void removeBuyOrder(Order&);

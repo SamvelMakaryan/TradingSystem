@@ -17,7 +17,7 @@ namespace TS {
         if (!input.is_open()) {
             std::cerr << "Can't open orders file for trader - ID_" << m_id << std::endl;
             input.close();
-            std::exit(-1);
+            std::exit(EXIT_FAILURE);
         }
         std::string order_name;
         std::string order_type_s;
@@ -52,7 +52,7 @@ namespace TS {
         if (!input.is_open()) {
             std::cerr << "Can't open orders file" << std::endl;
             input.close();
-            std::exit(-1);
+            std::exit(EXIT_FAILURE);
         }
         std::string line;
         std::string stock_name;
@@ -122,7 +122,7 @@ namespace TS {
         m_balance -= sum;
     }
 
-    Order* Trader::trade(const System& sys) {
+    Order* Trader::trade() {
         if (m_orders.empty()) {
             return nullptr;
         }
@@ -137,7 +137,7 @@ namespace TS {
 
     void Trader::printStocks() const {
         for (const auto& stock : m_stocks) {
-            std::cout << stock.first << ": " << stock.second << std::endl;
+            std::cout << '\t' << stock.first << ": " << stock.second << std::endl;
         }
     }
 
@@ -153,6 +153,5 @@ namespace TS {
         }
         return 0;
     }
-
 
 } // namespace TS

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include <sstream>
 #include <vector>
 #include <string>
@@ -24,11 +25,12 @@ namespace TS {
         void open(int);
         void printTradersStocks() const;
         void printTradersInfo() const;
+        void printStocks() const;
+        void printTransactions() const;
     private:
-        void execute();
+        void execute(Trader&);
         void start() const;
         void finish() const;
-        void processOrder(Trader&, Order&);
         void loadTraders();
         void loadStocks();
         void storeStocks() const;

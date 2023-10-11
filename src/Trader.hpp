@@ -38,7 +38,7 @@ namespace TS {
         void printStocks() const;
         int getStockCount(const std::string&) const;
         int getStocksCount() const;
-        Order* trade(const System&);
+        Order* trade();
     private:
         void loadOrders();
         void loadStocks();
@@ -48,8 +48,8 @@ namespace TS {
         std::string m_name;
         std::string m_surname;
         std::vector<Order*> m_orders;
-        std::vector<std::pair<std::string, int>> m_stocks;
         static inline int m_traderId = 1;
+        std::vector<std::pair<std::string, int>> m_stocks;
     };
 
 } //namespace TS

@@ -7,15 +7,13 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <mutex>
 
-// #include "OrderBook.hpp"
-// #include "Trader.hpp"
 #include "OrderType.hpp"
 #include "Stock.hpp"
 
 namespace TS {
 
-    // class Stock;
     class Trader;
     class OrderBook;
 
@@ -40,9 +38,10 @@ namespace TS {
     protected:
         int m_count;
         OrderType m_type;
-        std::string m_stock_name;
-        std::size_t m_traderId;
         std::size_t m_Id;
+        std::mutex m_mutex;
+        std::size_t m_traderId;
+        std::string m_stock_name;
         static inline int m_transactionId = 1;
     };
 

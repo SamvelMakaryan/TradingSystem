@@ -1,24 +1,26 @@
-Stock Market opened : Wed Oct 11 16:31:53 2023
+Stock Market opened : Thu Oct 12 03:36:43 2023
 
-[limit] Samvel Makaryan '1' selling BMW '11' confirmed
+[limit] Samvel Makaryan ID[1] selling BMW transactoin ID[5] confirmed
 
-[limit] Sergey Karapetyan '2' selling BMW '11' confirmed
+[market] Sergey Karapetyan ID[2] buying Nokia transaction ID[11] rejected (no available stocks)
 
-[market] Samvel Makaryan '1' buying IBM '11' rejected (low balance)
+[market] Samvel Makaryan ID[1] buying IBM transaction ID[4] confirmed
 
-[market] Sergey Karapetyan '2' buying Ibm '11' rejected (no available stocks)
+[limit] Sergey Karapetyan ID[2] selling BMW transactoin ID[10] confirmed
 
-[limit] Samvel Makaryan '1' selling Apple '11' confirmed
+[market] Sergey Karapetyan ID[2] buying IBM transaction ID[9] confirmed
 
-[limit] Sergey Karapetyan '2' buying Apple '11' waiting
+[limit] Samvel Makaryan ID[1] selling Apple transactoin ID[3] confirmed
 
-[market] Samvel Makaryan '1' buying Apple '11' confirmed
+[limit] Sergey Karapetyan ID[2] buying Apple transaction ID[8] waiting
 
-[limit] Sergey Karapetyan '2' selling BMW '11' confirmed
+[market] Samvel Makaryan ID[1] buying Apple transaction ID[2] confirmed
 
-[market] Samvel Makaryan '1' buying Google '11' rejected (low balance)
+[limit] Sergey Karapetyan ID[2] selling BMW transactoin ID[7] confirmed
 
-[market] Sergey Karapetyan '2' selling Nvidia '11' rejected (unavalible recource)
+[market] Samvel Makaryan ID[1] buying Google transaction ID[1] rejected (low balance)
 
-Stock Market closed : Wed Oct 11 16:32:03 2023
+[market] Sergey Karapetyan ID[2] selling Nvidia transaction ID[6] rejected (unavalible recource)
+
+Stock Market closed : Thu Oct 12 03:36:59 2023
 

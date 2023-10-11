@@ -18,7 +18,7 @@ namespace TS {
     }
 
     std::size_t Order::getTransactionId() const {
-        return m_transactionId;
+        return m_Id;
     }
 
     OrderType Order::getType() const {

@@ -66,13 +66,16 @@ namespace TS {
                     Trader& trader = findTraderById(traders, m_buy_orders[i]->getTraderId());
                     double sum = m_buy_orders[i]->getCount() * it->getPrice();
                     trader.reduceBalance(sum);
-                    (*it).increasePrice(sum);
+                    (*it).increasePrice(sum * 0.05);
                     (*it).decreaseCount(m_buy_orders[i]->getCount());
-                    serialize("[limit] " + trader.getName() + " " + trader.getSurname() + " '" + std::to_string(trader.getId()) + "' buying " + it->getName()
-                    + " '" + std::to_string(m_buy_orders[i]->getTransactionId()) + "' confirmed\n");
+                    serialize("[limit] " + trader.getName() + " " + trader.getSurname() + " ID[" + std::to_string(trader.getId()) + "] buying " + it->getName()
+                    + " transaction ID[" + std::to_string(m_buy_orders[i]->getTransactionId()) + "] confirmed\n");
+                    delete m_buy_orders[i];
+                    m_buy_orders.erase(m_buy_orders.begin() + i);
+                    --i;
                 } catch(std::exception& ex) {
                     ex.what();
-                    std::exit(-1);
+                    std::exit(EXIT_FAILURE);
                 }
             }
         }
@@ -84,13 +87,16 @@ namespace TS {
                     Trader& trader = findTraderById(traders, m_sell_orders[i]->getTraderId());
                     double sum = m_sell_orders[i]->getCount() * it->getPrice();
                     trader.addBalance(sum);
-                    (*it).decreasePrice(sum);
+                    (*it).decreasePrice(sum * 0.05);
                     (*it).increaseCount(m_sell_orders[i]->getCount());
                     serialize("[limit] " + trader.getName() + " " + trader.getSurname() + " '" + std::to_string(trader.getId()) + "' selling " + it->getName()
                     + " '" + std::to_string(m_sell_orders[i]->getTransactionId()) + "' confirmed\n");
+                    delete m_sell_orders[i];
+                    m_sell_orders.erase(m_sell_orders.begin() + i);
+                    --i;
                 } catch(std::exception& ex) {
                     ex.what();
-                    std::exit(-1);
+                    std::exit(EXIT_FAILURE);
                 }
             }
         }

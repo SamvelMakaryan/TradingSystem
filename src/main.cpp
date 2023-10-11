@@ -1,15 +1,26 @@
+#include <exception>
 #include <iostream>
+#include <csignal>
 #include <thread>
 #include <chrono>
+#include <random>
 
-#include "Emulation.hpp"
+#include "Visualizer.hpp"
+#include "Commands.hpp"
+#include "Signals.hpp"
 #include "System.hpp"
-#include "Order.hpp"
 
 int main() {
-    constexpr int duration = 10;
-    std::thread timerThread(timer, duration);
+    std::signal(SIGINT, sig::cntrlC);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(15, 60);
+    int duration = dis(gen);
+    std::thread timerThread(vis::timer, duration);
     TS::System& market = TS::System::getSystemInstance();
     market.open(duration);
-    timerThread.join();
+    if (timerThread.joinable()) {
+        timerThread.join();
+    }
+    cmd::commandLine(market);
 }
