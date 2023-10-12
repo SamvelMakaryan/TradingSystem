@@ -12,10 +12,18 @@ namespace TS {
         loadStocks();
     }
 
+    Trader::Trader(const std::string& name, const std::string& surname, double balance, bool) 
+    :   m_name(name),
+        m_surname(surname),
+        m_id(m_traderId++),
+        m_balance(balance) {}
+
     void Trader::loadOrders() {
         std::fstream input(("../database/traders/orders/ID_" + std::to_string(m_id) + ".txt").c_str(), std::ios::in);
         if (!input.is_open()) {
             std::cerr << "Can't open orders file for trader - ID_" << m_id << std::endl;
+            input.close();
+            input.open(("../database/traders/orders/ID_" + std::to_string(m_id) + ".txt").c_str(), std::ios::out);
             input.close();
             std::exit(EXIT_FAILURE);
         }
@@ -50,9 +58,9 @@ namespace TS {
     void Trader::loadStocks() {
         std::fstream input(("../database/traders/stocks/ID_" + std::to_string(m_id) + ".txt").c_str(), std::ios::in);
         if (!input.is_open()) {
-            std::cerr << "Can't open orders file" << std::endl;
             input.close();
-            std::exit(EXIT_FAILURE);
+            input.open(("../database/traders/stocks/ID_" + std::to_string(m_id) + ".txt").c_str(), std::ios::out);
+            input.close();
         }
         std::string line;
         std::string stock_name;
@@ -74,8 +82,11 @@ namespace TS {
         m_surname(std::move(oth.m_surname)) {}
 
     Trader::~Trader() {
-        for (auto order : m_orders) {
+        for (auto& order : m_orders) {
+            m_mutex.lock();
             delete order;
+            order = nullptr;
+            m_mutex.unlock();
         }
     }
 
@@ -126,8 +137,10 @@ namespace TS {
         if (m_orders.empty()) {
             return nullptr;
         }
+        m_mutex.lock();
         Order* order = m_orders.back(); 
         m_orders.pop_back();
+        m_mutex.unlock();
         return order;
     }
 

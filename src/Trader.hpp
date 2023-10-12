@@ -15,11 +15,10 @@
 
 namespace TS {
 
-    class System;
-    
-    class Trader {
+    class   Trader {
     public:
         Trader(const std::string&, const std::string&, double);
+        Trader(const std::string&, const std::string&, double, bool);
         Trader(const Trader&) = delete;
         Trader(Trader&&) noexcept;
         ~Trader();
@@ -47,6 +46,7 @@ namespace TS {
         std::size_t m_id;
         std::string m_name;
         std::string m_surname;
+        std::mutex m_mutex;
         std::vector<Order*> m_orders;
         static inline int m_traderId = 1;
         std::vector<std::pair<std::string, int>> m_stocks;

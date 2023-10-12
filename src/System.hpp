@@ -27,6 +27,13 @@ namespace TS {
         void printTradersInfo() const;
         void printStocks() const;
         void printTransactions() const;
+        void printTraderById(int) const;
+        void printStockByName(const std::string&) const;
+        void addStock(const std::string&, int, double);
+        void addTrader(const std::string&, const std::string&, double);
+        void addOrder(int, const std::string&, const std::string&, int, const std::string&, double);
+        void removeTraderById(int);
+        void removeStockByName(const std::string&);
     private:
         void execute(Trader&);
         void start() const;

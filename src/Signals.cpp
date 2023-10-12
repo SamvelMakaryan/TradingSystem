@@ -2,7 +2,6 @@
 
 #include "Signals.hpp"
 
-
 namespace sig {
     
     void cntrlC(int) {

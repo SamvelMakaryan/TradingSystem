@@ -11,13 +11,14 @@
 
 namespace cmd {
 
-    void commandLine(const TS::System&);
-    void execute(const std::string&, const TS::System&);
+    void commandLine(TS::System&);
+    void execute(const std::string&, TS::System&);
     void help();
-    void add(std::vector<std::string>&, const TS::System&);
-    void display(std::vector<std::string>&, const TS::System&);
-    void remove(std::vector<std::string>&, const TS::System&);
-    void search(std::vector<std::string>&, const TS::System&);
+    void add(std::vector<std::string>&, TS::System&);
+    void display(std::vector<std::string>&, TS::System&);
+    void remove(std::vector<std::string>&, TS::System&);
+    void search(std::vector<std::string>&, TS::System&);
+    bool has_symbols(const std::string&);
 
 } // namespace cmd
 

@@ -1,14 +1,14 @@
-Apple/124.95/114
+Apple/46/46
 Amazon/765/765
-AMD/120/120
-BMW/430/411
+AMD/110/110
+BMW/323/319
 Coca Cola/302/302
 Google/1200/1200
-IBM/143.325/110
+IBM/1073/1073
 McDonalds/6500/6500
 Mercedes/2.56/1500
-Nvidia/2.01258/830
+Nvidia/7.15602/310
 Oracle/9.96/700
-Synopsys/6.95/3044
-Tesla/15.21/444
+Synopsys/129.82/2672
+Tesla/15.21/904
 Yahoo/2.1/71

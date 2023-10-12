@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 
+#include "System.hpp"
+
 namespace vis {
     
     void clearScreen();
@@ -13,6 +15,5 @@ namespace vis {
     void closing();
     
 } // namespace vis
-
 
 #endif //VISUALIZER_HPP_

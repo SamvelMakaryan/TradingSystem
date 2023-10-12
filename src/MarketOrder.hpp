@@ -19,5 +19,4 @@ namespace TS {
 
 } // namespace TS
 
-
 #endif //MARKETORDER_HPP_

@@ -32,7 +32,7 @@ namespace TS {
         std::size_t getTraderId() const;
         std::size_t getTransactionId() const;
         const std::string& getStockName() const;
-        double getExpectedPrice() const;
+        virtual double getExpectedPrice() const;
     protected:
         void serialize(const std::string&) const;
     protected:

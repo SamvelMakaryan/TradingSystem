@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <mutex>
 #include <cmath>
 
 #include "Stock.hpp"
@@ -38,6 +39,7 @@ namespace TS {
     private:
         std::vector<Order*> m_buy_orders;
         std::vector<Order*> m_sell_orders;
+        std::mutex m_mutex;
     };
 
 } //namespace TS

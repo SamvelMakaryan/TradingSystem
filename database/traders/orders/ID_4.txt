@@ -1,0 +1,8 @@
+market sell 45 IBM
+limit sell 20 Tesla 10.12
+limit buy 4 Synopsys 21.12
+market buy 10 Synopsys
+limit sell 10 Oracle 50.901
+market buy 20 Nvidia
+market buy 20 McDonalds
+limit buy 20 Google 12.01

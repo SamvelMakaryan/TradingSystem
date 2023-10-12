@@ -9,7 +9,7 @@ namespace TS {
 
     System::~System() {
         storeStocks();
-        storeTraders();        
+        storeTraders();      
     }
 
     void System::storeStocks() const {
@@ -117,7 +117,8 @@ namespace TS {
         if (order) {
             order->execute(trader, *(std::find_if(m_stocks.begin(), m_stocks.end(),
                 [name = order->getStockName()](const auto& stock)
-                { return name == stock.getName(); })), m_orders);
+                {return name == stock.getName();})), 
+                m_orders);
         }
     }
 
@@ -194,6 +195,71 @@ namespace TS {
             std::cout << line << std::endl;
         }
         tr.close();
+    }
+
+    void System::addTrader(const std::string& name, const std::string& surname, double balance) {
+        m_traders.emplace_back(name, surname, balance, true);
+    }
+
+    void System::addStock(const std::string& name, int count, double price) {
+        m_stocks.emplace_back(name, count, price);
+    }
+
+    void System::addOrder(int id, const std::string& strategy, const std::string& type, int count, const std::string& stock_name, double price) {
+        std::fstream output("../database/traders/orders/ID_" + std::to_string(id) + ".txt", std::ios::app);
+        if (!output.is_open()) {
+            throw std::invalid_argument("Can't add new order\n");
+        }
+        output << strategy << " " << type << " " << count << " " << stock_name;
+        if (!std::isinf(price)) {
+            output << " " << price;
+        }
+        output << std::endl;
+        output.close();        
+    }
+
+    void System::removeTraderById(int id) {
+        m_traders.erase(std::remove_if(m_traders.begin(), m_traders.end(), 
+            [id](const auto& trader){return trader.getId() == id;}), 
+            m_traders.end());
+    }
+
+    void System::removeStockByName(const std::string& name) {
+        m_stocks.erase(std::remove_if(m_stocks.begin(), m_stocks.end(), 
+            [&name](const auto& stock){return stock.getName() == name;}), 
+            m_stocks.end());
+    }
+
+    void System::printTraderById(int id) const {
+        bool found = false;
+        std::for_each(m_traders.begin(), m_traders.end(), 
+            [id, &found](const auto& trader){if (trader.getId() == id)
+            {std::cout << trader.getName() << " " 
+                       << trader.getSurname() << " "
+                       << trader.getBalance() << '$' 
+                       << std::endl;
+                       found = true;
+            };}
+        );
+        if (!found) {
+            throw std::invalid_argument("Invalid argument\nTrader not found\n");
+        }
+    }
+
+    void System::printStockByName(const std::string& name) const {
+        bool found = false;
+        std::for_each(m_stocks.begin(), m_stocks.end(), 
+            [&name, &found](const auto& stock){if (stock.getName() == name)
+            {std::cout << stock.getName() << " " 
+                       << stock.getCount() << " "
+                       << stock.getPrice() << '$' 
+                       << std::endl;
+                       found = true;
+            };}
+        );
+        if (!found) {
+            throw std::invalid_argument("Invalid argument\nStock not found\n");
+        }
     }
 
 } // namespace TS

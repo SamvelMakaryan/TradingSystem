@@ -22,15 +22,6 @@ namespace TS {
         return m_buy_orders;
     }   
 
-    // Order* OrderBook::getOrderById(std::size_t id) const {
-    //     for (auto order : m_orders) {
-    //         if (order->getTransactionId() == id) {
-    //             return order;
-    //         }
-    //     }
-    //     return nullptr;
-    // }
-
     void OrderBook::addBuyOrder(Order& order) {
         m_buy_orders.push_back(&order);
     }
@@ -63,16 +54,18 @@ namespace TS {
                         {return name == stock.getName();});
             if (it != stocks.end() && !std::isinf(m_buy_orders[i]->getExpectedPrice()) && it->getPrice() <= m_buy_orders[i]->getExpectedPrice()) {
                 try {
+                    m_mutex.lock();
                     Trader& trader = findTraderById(traders, m_buy_orders[i]->getTraderId());
                     double sum = m_buy_orders[i]->getCount() * it->getPrice();
                     trader.reduceBalance(sum);
-                    (*it).increasePrice(sum * 0.05);
+                    (*it).increasePrice(it->getPrice() * 0.05);
                     (*it).decreaseCount(m_buy_orders[i]->getCount());
                     serialize("[limit] " + trader.getName() + " " + trader.getSurname() + " ID[" + std::to_string(trader.getId()) + "] buying " + it->getName()
                     + " transaction ID[" + std::to_string(m_buy_orders[i]->getTransactionId()) + "] confirmed\n");
                     delete m_buy_orders[i];
                     m_buy_orders.erase(m_buy_orders.begin() + i);
                     --i;
+                    m_mutex.unlock();
                 } catch(std::exception& ex) {
                     ex.what();
                     std::exit(EXIT_FAILURE);
@@ -84,16 +77,18 @@ namespace TS {
                         {return name == stock.getName();});
             if (it != stocks.end() && !std::isinf(m_sell_orders[i]->getExpectedPrice()) && it->getPrice() >= m_sell_orders[i]->getExpectedPrice()) {
                 try {
+                    m_mutex.lock();
                     Trader& trader = findTraderById(traders, m_sell_orders[i]->getTraderId());
                     double sum = m_sell_orders[i]->getCount() * it->getPrice();
                     trader.addBalance(sum);
-                    (*it).decreasePrice(sum * 0.05);
+                    (*it).decreasePrice(it->getPrice() * 0.05);
                     (*it).increaseCount(m_sell_orders[i]->getCount());
                     serialize("[limit] " + trader.getName() + " " + trader.getSurname() + " '" + std::to_string(trader.getId()) + "' selling " + it->getName()
                     + " '" + std::to_string(m_sell_orders[i]->getTransactionId()) + "' confirmed\n");
                     delete m_sell_orders[i];
                     m_sell_orders.erase(m_sell_orders.begin() + i);
                     --i;
+                    m_mutex.unlock();
                 } catch(std::exception& ex) {
                     ex.what();
                     std::exit(EXIT_FAILURE);

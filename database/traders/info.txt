@@ -1,5 +1,5 @@
-Samvel/Makaryan/66.4
-Sergey/Karapetyan/5995.69
-Artyom/Margaryan/1600.5
-Khachik/Kalashyan/7590.89
-Artur/Berberyan/2020.12
+Samvel/Makaryan/2833.95
+Sergey/Karapetyan/25881
+Artyom/Margaryan/450.5
+Khachik/Kalashyan/1478.76
+Artur/Berberyan/517.138

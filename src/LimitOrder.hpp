@@ -16,12 +16,11 @@ namespace TS {
     public:
         virtual void buy(Trader&, Stock&, OrderBook&) override;
         virtual void sell(Trader&, Stock&, OrderBook&) override;
-        double getExpectedPrice() const;
+        double getExpectedPrice() const override;
     private:
         double m_expected_price;
     };
 
 } // namespace TS
-
 
 #endif //LIMITORDER_HPP_
